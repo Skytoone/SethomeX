@@ -74,8 +74,11 @@ SethomeX automatically projects player homes onto interactive web maps:
 | Command | Aliases | Description | Default Permission |
 |---|---|---|---|
 | `/home [name]` | `/h` | Teleport to a home or open the GUI | `sethomex.use` |
-| `/sethome <name>` | `/sh` | Set a new home at your location | `sethomex.set` |
+| `/sethome <name> [--respawn]` | `/sh` | Set a new home at your location (optionally as primary respawn) | `sethomex.set` |
 | `/delhome <name>` | `/dh`, `/rmhome` | Delete an existing home | `sethomex.delete` |
+| `/home invite <player> [home]` | | Send a temporary 60s home visit invitation | `sethomex.use` |
+| `/home accept [player]` | | Accept a pending home invitation with interactive chat button | `sethomex.use` |
+| `/home setrespawn <name>` | | Designate a home as your primary respawn location | `sethomex.set` |
 | `/homes` | | Open the visual home management GUI | `sethomex.use` |
 | `/sethomex` | `/shx`, `/seth` | Main plugin command / info | None |
 | `/shx reload` | | Reload configuration and messages | `sethomex.admin` |
@@ -112,9 +115,9 @@ SethomeX provides native placeholders for scoreboards, chat formats, and tab lis
 
 ---
 
-## 📥 Data Importers
+## 💻 Import Utilities
 
-Easily migrate from legacy home plugins with zero downtime:
+Import your legacy homes seamlessly:
 
 ```bash
 /shx import essentials       # Import homes from EssentialsX
@@ -185,34 +188,26 @@ SethomeXAPI api = getServer().getServicesManager()
 ### 🔧 API Method Reference
 
 ```java
-// Retrieve a specific home
+// Synchronous API Methods
 Optional<Home> home = api.getHome(player.getUniqueId(), "base");
-
-// Get all homes of a player
 List<Home> homes = api.getHomes(player.getUniqueId());
-
-// Programmatically set a home
-api.setHome(player.getUniqueId(), "shop", location);
-
-// Delete a home
-api.deleteHome(player.getUniqueId(), "old_base");
-
-// Initiate home teleportation (with warmup/cooldowns)
-api.teleportToHome(player, "base");
-
-// Check if player owns a home
+boolean setSuccess = api.setHome(player.getUniqueId(), "shop", location);
+boolean deleteSuccess = api.deleteHome(player.getUniqueId(), "old_base");
+boolean tpStarted = api.teleportToHome(player, "base");
 boolean exists = api.hasHome(player.getUniqueId(), "base");
-
-// Get player home limit and count
 int count = api.getHomeCount(player.getUniqueId());
 int limit = api.getMaxHomes(player);
-
-// Retrieve all public homes across the server
 List<Home> publicHomes = api.getPublicHomes();
+boolean isTrusted = api.isTrusted(home, friendUuid);
+boolean isBanned = api.isBanned(home, enemyUuid);
 
-// Trust / untrust players for home access
-api.trustPlayer(home, friendUuid);
-api.untrustPlayer(home, friendUuid);
+// Asynchronous API Methods (CompletableFuture)
+api.getHomeAsync(playerUuid, "base").thenAccept(optHome -> {
+    optHome.ifPresent(h -> System.out.println("Found home: " + h.getName()));
+});
+api.getHomesAsync(playerUuid).thenAccept(homesList -> { ... });
+api.setHomeAsync(playerUuid, "shop", location).thenAccept(success -> { ... });
+api.deleteHomeAsync(playerUuid, "old_base").thenAccept(success -> { ... });
 ```
 
 ---
