@@ -401,7 +401,17 @@ public class HomeManager {
             return false;
         }
 
-        Home home = playerHomes.remove(name.toLowerCase());
+        Home home = playerHomes.get(name.toLowerCase());
+        Player player = Bukkit.getPlayer(uuid);
+        if (player != null && home != null) {
+            fr.skynex.sethomex.api.events.PlayerDeleteHomeEvent event = new fr.skynex.sethomex.api.events.PlayerDeleteHomeEvent(player, home);
+            Bukkit.getPluginManager().callEvent(event);
+            if (event.isCancelled()) {
+                return false;
+            }
+        }
+
+        playerHomes.remove(name.toLowerCase());
 
         // Retirer des cartes interactives
         if (plugin.getMapIntegrationManager() != null && home != null) {
