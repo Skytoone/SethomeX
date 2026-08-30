@@ -122,4 +122,62 @@ public interface SethomeXAPI {
      * @return True if trust was removed
      */
     boolean untrustPlayer(@NotNull Home home, @NotNull UUID guestUuid);
+
+    /**
+     * Checks if a guest player is trusted for access to a specific home.
+     *
+     * @param home Target home
+     * @param guestUuid UUID of the guest player
+     * @return True if trusted
+     */
+    boolean isTrusted(@NotNull Home home, @NotNull UUID guestUuid);
+
+    /**
+     * Checks if a player is banned from visiting a specific home.
+     *
+     * @param home Target home
+     * @param guestUuid UUID of the target player
+     * @return True if banned
+     */
+    boolean isBanned(@NotNull Home home, @NotNull UUID guestUuid);
+
+    /**
+     * Asynchronously retrieves a home of a player.
+     *
+     * @param playerUuid UUID of home owner
+     * @param name Home name
+     * @return CompletableFuture containing Optional<Home>
+     */
+    @NotNull
+    java.util.concurrent.CompletableFuture<Optional<Home>> getHomeAsync(@NotNull UUID playerUuid, @NotNull String name);
+
+    /**
+     * Asynchronously retrieves all homes of a player.
+     *
+     * @param playerUuid UUID of home owner
+     * @return CompletableFuture containing List<Home>
+     */
+    @NotNull
+    java.util.concurrent.CompletableFuture<List<Home>> getHomesAsync(@NotNull UUID playerUuid);
+
+    /**
+     * Asynchronously creates or updates a home for a player.
+     *
+     * @param playerUuid UUID of home owner
+     * @param name Home name
+     * @param location Target location
+     * @return CompletableFuture containing Boolean success
+     */
+    @NotNull
+    java.util.concurrent.CompletableFuture<Boolean> setHomeAsync(@NotNull UUID playerUuid, @NotNull String name, @NotNull Location location);
+
+    /**
+     * Asynchronously deletes a home of a player.
+     *
+     * @param playerUuid UUID of home owner
+     * @param name Home name
+     * @return CompletableFuture containing Boolean success
+     */
+    @NotNull
+    java.util.concurrent.CompletableFuture<Boolean> deleteHomeAsync(@NotNull UUID playerUuid, @NotNull String name);
 }

@@ -64,7 +64,13 @@ commands:
   share-duration-invalid: "<red>Invalid duration! Examples: 30m, 2h, 1d."
   share-trust-temp: "<green>[Share] Temporary access (<white>{role}<green>) granted to <white>{player} <green>for home <white>{name} <green>for <white>{duration}<green>."
   share-trust-perm: "<green>[Share] Permanent access (<white>{role}<green>) granted to <white>{player} <green>for home <white>{name}<green>."
+  invite-usage: "<red>Usage: /home invite <player> [home_name]"
   invite-offline: "<red>Player <yellow>{player} <red>is not online!"
+  invite-cannot-self: "<red>Error: You cannot invite yourself!"
+  invite-sent: "<green>[Invite] Invitation sent to <white>{player} <green>for home <white>{home} <gray>(valid for 60s)."
+  invite-none-pending: "<red>Error: You do not have any pending home invitations."
+  invite-expired: "<red>Error: The home invitation has expired or is invalid."
+  invite-accepted: "<green>[Invite] Accepting invitation for home <white>{home}<green>..."
   invite-home-deleted: "<red>This home no longer exists."
   invite-multiple-pending: "<red>You have multiple invitations! Please specify the player: <yellow>/home accept <player>"
 
@@ -92,6 +98,7 @@ home:
   category-set: "<green>Home <white>{name} <green>is now in category <yellow>{category}<green>!"
   compass-usage: "<red>Usage: /home compass <home_name>"
   compass-set: "<green>Your compass pointer has been set to your home <white>{name}<green>!"
+  respawn-set: "<green>[Respawn] Home <white>{name} <green>has been set as your primary respawn location!"
   list-header: "<dark_gray><strike>---------------------------------------------</strike>\n<gold><bold>★ <yellow><bold>Your SethomeX Registry <gold><bold>★\n"
   list-footer: "\n<dark_gray><strike>---------------------------------------------"
 

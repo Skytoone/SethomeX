@@ -247,9 +247,26 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
     }
 
     private void handleHome(Player player, String[] args) {
+        if (args.length >= 1 && args[0].equalsIgnoreCase("invite")) {
+            if (args.length < 2) {
+                plugin.getMessageManager().sendMessage(player, "commands.invite-usage");
+                return;
+            }
+            String targetPlayerName = args[1];
+            String homeName = args.length >= 3 ? args[2] : "home";
+            handleHomeInvite(player, targetPlayerName, homeName);
+            return;
+        }
+
         if (args.length >= 1 && args[0].equalsIgnoreCase("accept")) {
             String targetSenderName = (args.length >= 2) ? args[1] : null;
             handleHomeAccept(player, targetSenderName);
+            return;
+        }
+
+        if (args.length >= 1 && (args[0].equalsIgnoreCase("setrespawn") || args[0].equalsIgnoreCase("respawn"))) {
+            String homeName = args.length >= 2 ? args[1] : "home";
+            handleHomeSetRespawn(player, homeName);
             return;
         }
 
@@ -675,80 +692,6 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
         }
     }
 
-    private void handleHomeInvite(Player player, String homeName, String targetGuestName) {
-        Home home = getEditableHome(player, homeName);
-        if (home == null) {
-            plugin.getMessageManager().sendMessage(player, "home.error-not-found", "{name}", homeName);
-            return;
-        }
-
-        Player guest = Bukkit.getPlayer(targetGuestName);
-        if (guest == null || !guest.isOnline()) {
-            plugin.getMessageManager().sendMessage(player, "commands.invite-offline", "{player}", targetGuestName);
-            return;
-        }
-
-        if (guest.getUniqueId().equals(player.getUniqueId())) {
-            plugin.getMessageManager().sendMessage(player, "social.cannot-invite-self");
-            return;
-        }
-
-        long durationMs = plugin.getConfig().getLong("social.invite-duration", 60) * 1000L;
-        pendingInvites.computeIfAbsent(guest.getUniqueId(), k -> new java.util.concurrent.ConcurrentHashMap<>())
-                .put(player.getUniqueId(), new PendingInvite(player.getUniqueId(), home.getName(), durationMs));
-
-        plugin.getMessageManager().sendMessage(player, "invite.sent", "{player}", guest.getName(), "{home}",
-                home.getName());
-        plugin.getMessageManager().sendMessage(guest, "invite.received", "{player}", player.getName(), "{home}",
-                home.getName());
-
-        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.2f);
-        guest.playSound(guest.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.5f);
-    }
-
-    private void handleHomeAccept(Player player, String senderName) {
-        Map<UUID, PendingInvite> playerInvites = pendingInvites.get(player.getUniqueId());
-        if (playerInvites == null || playerInvites.isEmpty()) {
-            plugin.getMessageManager().sendMessage(player, "invite.expired");
-            return;
-        }
-
-        playerInvites.values().removeIf(invite -> invite.isExpired());
-
-        PendingInvite inviteToAccept = null;
-
-        if (senderName == null) {
-            if (playerInvites.isEmpty()) {
-                plugin.getMessageManager().sendMessage(player, "invite.expired");
-                return;
-            } else if (playerInvites.size() == 1) {
-                inviteToAccept = playerInvites.values().iterator().next();
-            } else {
-                plugin.getMessageManager().sendMessage(player, "commands.invite-multiple-pending");
-                return;
-            }
-        } else {
-            OfflinePlayer host = Bukkit.getOfflinePlayer(senderName);
-            inviteToAccept = playerInvites.get(host.getUniqueId());
-        }
-
-        if (inviteToAccept == null || inviteToAccept.isExpired()) {
-            plugin.getMessageManager().sendMessage(player, "invite.expired");
-            return;
-        }
-
-        playerInvites.remove(inviteToAccept.getHostUuid());
-
-        Home home = plugin.getHomeManager().getHome(inviteToAccept.getHostUuid(), inviteToAccept.getHomeName());
-        if (home == null) {
-            plugin.getMessageManager().sendMessage(player, "commands.invite-home-deleted");
-            return;
-        }
-
-        plugin.getMessageManager().sendMessage(player, "invite.accepted");
-        plugin.getTeleportManager().startTeleport(player, home);
-    }
-
     /**
      * Gère la classification d'un home dans une catégorie/dossier.
      */
@@ -928,6 +871,7 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
                 suggestions.add("untrust");
                 suggestions.add("invite");
                 suggestions.add("accept");
+                suggestions.add("setrespawn");
                 suggestions.add("list");
                 suggestions.add("effects");
                 suggestions.add("desc");
@@ -1313,5 +1257,85 @@ public class HomeCommands implements CommandExecutor, TabCompleter {
                 "{count}", String.valueOf(matching.size()),
                 "{player}", targetGuestName);
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
+    }
+
+    private void handleHomeInvite(Player player, String targetPlayerName, String homeName) {
+        Player target = Bukkit.getPlayer(targetPlayerName);
+        if (target == null || !target.isOnline()) {
+            plugin.getMessageManager().sendMessage(player, "commands.invite-offline", "{player}", targetPlayerName);
+            return;
+        }
+
+        if (target.getUniqueId().equals(player.getUniqueId())) {
+            plugin.getMessageManager().sendMessage(player, "commands.invite-cannot-self");
+            return;
+        }
+
+        Home home = plugin.getHomeManager().getHome(player, homeName);
+        if (home == null) {
+            plugin.getMessageManager().sendMessage(player, "home.error-not-found", "{name}", homeName);
+            return;
+        }
+
+        pendingInvites.computeIfAbsent(target.getUniqueId(), k -> new java.util.concurrent.ConcurrentHashMap<>())
+                .put(player.getUniqueId(), new PendingInvite(player.getUniqueId(), home.getName(), 60000L));
+
+        plugin.getMessageManager().sendMessage(player, "commands.invite-sent", "{player}", target.getName(), "{home}", home.getName());
+
+        String inviteMsg = "<gradient:gold:yellow><bold>SethomeX</bold></gradient> <gray>Player <white>" + player.getName() 
+                + "</white> invited you to visit home <yellow>" + home.getName() + "</yellow>!</gray> "
+                + "<click:run_command:'/home accept " + player.getName() + "'><hover:show_text:'<green>Click to accept teleportation'><green><bold>[CLICK TO ACCEPT]</bold></green></hover></click>";
+        
+        target.sendMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(inviteMsg));
+        target.playSound(target.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1.0f, 1.2f);
+    }
+
+    private void handleHomeAccept(Player player, @Nullable String targetSenderName) {
+        Map<UUID, PendingInvite> playerInvites = pendingInvites.get(player.getUniqueId());
+        if (playerInvites == null || playerInvites.isEmpty()) {
+            plugin.getMessageManager().sendMessage(player, "commands.invite-none-pending");
+            return;
+        }
+
+        PendingInvite invite = null;
+        if (targetSenderName != null) {
+            OfflinePlayer senderPlayer = Bukkit.getOfflinePlayer(targetSenderName);
+            invite = playerInvites.get(senderPlayer.getUniqueId());
+        } else {
+            for (PendingInvite pi : playerInvites.values()) {
+                if (!pi.isExpired()) {
+                    invite = pi;
+                    break;
+                }
+            }
+        }
+
+        if (invite == null || invite.isExpired()) {
+            plugin.getMessageManager().sendMessage(player, "commands.invite-expired");
+            return;
+        }
+
+        playerInvites.remove(invite.getHostUuid());
+        Home home = plugin.getHomeManager().getHome(invite.getHostUuid(), invite.getHomeName());
+
+        if (home == null) {
+            plugin.getMessageManager().sendMessage(player, "commands.invite-home-deleted");
+            return;
+        }
+
+        plugin.getMessageManager().sendMessage(player, "commands.invite-accepted", "{home}", home.getName());
+        plugin.getTeleportManager().startTeleport(player, home);
+    }
+
+    private void handleHomeSetRespawn(Player player, String homeName) {
+        Home home = plugin.getHomeManager().getHome(player, homeName);
+        if (home == null) {
+            plugin.getMessageManager().sendMessage(player, "home.error-not-found", "{name}", homeName);
+            return;
+        }
+
+        plugin.getHomeManager().setRespawnHome(player.getUniqueId(), home);
+        plugin.getMessageManager().sendMessage(player, "home.respawn-set", "{name}", home.getName());
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.5f);
     }
 }

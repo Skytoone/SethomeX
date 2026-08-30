@@ -171,9 +171,16 @@ public final class SethomeX extends JavaPlugin implements SethomeXAPI {
     private void registerCommands() {
         HomeCommands homeCommands = new HomeCommands(this);
         getCommand("sethome").setExecutor(homeCommands);
+        getCommand("sethome").setTabCompleter(homeCommands);
+
         getCommand("home").setExecutor(homeCommands);
+        getCommand("home").setTabCompleter(homeCommands);
+
         getCommand("delhome").setExecutor(homeCommands);
+        getCommand("delhome").setTabCompleter(homeCommands);
+
         getCommand("sethomex").setExecutor(homeCommands);
+        getCommand("sethomex").setTabCompleter(homeCommands);
     }
 
     private void sendStartupBanner() {
@@ -349,5 +356,35 @@ public final class SethomeX extends JavaPlugin implements SethomeXAPI {
         if (homeManager == null || home == null || guestUuid == null) return false;
         homeManager.removeTrust(home, guestUuid);
         return true;
+    }
+
+    @Override
+    public boolean isTrusted(@NotNull Home home, @NotNull UUID guestUuid) {
+        return home != null && guestUuid != null && home.isTrusted(guestUuid);
+    }
+
+    @Override
+    public boolean isBanned(@NotNull Home home, @NotNull UUID guestUuid) {
+        return home != null && guestUuid != null && home.isBanned(guestUuid);
+    }
+
+    @Override
+    public @NotNull java.util.concurrent.CompletableFuture<Optional<Home>> getHomeAsync(@NotNull UUID playerUuid, @NotNull String name) {
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> getHome(playerUuid, name));
+    }
+
+    @Override
+    public @NotNull java.util.concurrent.CompletableFuture<List<Home>> getHomesAsync(@NotNull UUID playerUuid) {
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> getHomes(playerUuid));
+    }
+
+    @Override
+    public @NotNull java.util.concurrent.CompletableFuture<Boolean> setHomeAsync(@NotNull UUID playerUuid, @NotNull String name, @NotNull Location location) {
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> setHome(playerUuid, name, location));
+    }
+
+    @Override
+    public @NotNull java.util.concurrent.CompletableFuture<Boolean> deleteHomeAsync(@NotNull UUID playerUuid, @NotNull String name) {
+        return java.util.concurrent.CompletableFuture.supplyAsync(() -> deleteHome(playerUuid, name));
     }
 }
