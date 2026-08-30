@@ -1,5 +1,6 @@
 package fr.skynex.sethomex;
 
+import fr.skynex.sethomex.api.SethomeXAPI;
 import fr.skynex.sethomex.commands.HomeCommands;
 import fr.skynex.sethomex.listeners.TeleportListener;
 import fr.skynex.sethomex.listeners.RespawnListener;
@@ -10,8 +11,12 @@ import fr.skynex.sethomex.managers.MessageManager;
 import fr.skynex.sethomex.managers.EconomyManager;
 import fr.skynex.sethomex.managers.GUIManager;
 import fr.skynex.sethomex.managers.MapIntegrationManager;
+import fr.skynex.sethomex.models.Home;
 import fr.skynex.sethomex.storage.DatabaseManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bstats.bukkit.Metrics;
 import fr.skynex.sethomex.integration.PlaceholderAPIExpansion;
@@ -19,8 +24,11 @@ import fr.skynex.sethomex.util.UpdateChecker;
 import fr.skynex.sethomex.util.scheduler.TaskScheduler;
 import fr.skynex.sethomex.util.scheduler.BukkitSchedulerImpl;
 import fr.skynex.sethomex.util.scheduler.FoliaSchedulerImpl;
+import org.jetbrains.annotations.NotNull;
 
-public final class SethomeX extends JavaPlugin {
+import java.util.*;
+
+public final class SethomeX extends JavaPlugin implements SethomeXAPI {
 
     private static SethomeX instance;
     private TaskScheduler scheduler;
@@ -103,12 +111,14 @@ public final class SethomeX extends JavaPlugin {
         // Tâche de maintenance automatique (Purger)
         if (getConfig().getBoolean("database.maintenance.auto-purge.enabled", false)) {
             int days = getConfig().getInt("database.maintenance.auto-purge.days-inactive", 30);
-            // Exécuter 10 secondes après le démarrage complet pour ne pas alourdir le boot principal !
             this.scheduler.runTaskLater(() -> homeManager.runPurgeTask(days), 200L);
         }
 
         // Enregistrement des commandes
         registerCommands();
+
+        // Enregistrement du service SethomeXAPI
+        getServer().getServicesManager().register(SethomeXAPI.class, this, this, ServicePriority.Normal);
 
         // Enregistrement de l'expansion PlaceholderAPI (Optionnel)
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -125,10 +135,9 @@ public final class SethomeX extends JavaPlugin {
             getLogger().warning("Unable to enable bStats.");
         }
 
-        // Vérification des mises à jour SpigotMC (ID de ressource à mettre à jour lors
-        // de la publication)
+        // Vérification des mises à jour SpigotMC
         if (getConfig().getBoolean("updates.check-updates", true)) {
-            int resourceId = 111111; // ID de ressource SpigotMC à configurer
+            int resourceId = 111111;
             new UpdateChecker(this, resourceId).getVersion(version -> {
                 if (isNewerVersion(getPluginMeta().getVersion(), version)) {
                     getLogger().warning("A new version of SethomeX is available (" + version
@@ -139,7 +148,7 @@ public final class SethomeX extends JavaPlugin {
             });
         }
 
-        getLogger().info("SethomeX initialized successfully!");
+        getLogger().info("SethomeX initialized successfully with API provider!");
     }
 
     @Override
@@ -247,5 +256,98 @@ public final class SethomeX extends JavaPlugin {
             return false;
         }
         return false;
+    }
+
+    // -------------------------------------------------------------------------
+    // SethomeXAPI Implementation
+    // -------------------------------------------------------------------------
+
+    @Override
+    public @NotNull Optional<Home> getHome(@NotNull UUID playerUuid, @NotNull String name) {
+        if (homeManager == null) return Optional.empty();
+        return Optional.ofNullable(homeManager.getHome(playerUuid, name));
+    }
+
+    @Override
+    public @NotNull List<Home> getHomes(@NotNull UUID playerUuid) {
+        if (homeManager == null) return Collections.emptyList();
+        return new ArrayList<>(homeManager.getPlayerHomes(playerUuid));
+    }
+
+    @Override
+    public boolean setHome(@NotNull UUID playerUuid, @NotNull String name, @NotNull Location location) {
+        if (homeManager == null || location == null || location.getWorld() == null) return false;
+        Player player = Bukkit.getPlayer(playerUuid);
+        if (player != null) {
+            homeManager.createHome(player, name, location);
+        } else {
+            Home home = new Home(playerUuid, name, location, org.bukkit.Material.RED_BED);
+            homeManager.saveHome(home);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteHome(@NotNull UUID playerUuid, @NotNull String name) {
+        if (homeManager == null) return false;
+        return homeManager.deleteHome(playerUuid, name, name);
+    }
+
+    @Override
+    public boolean teleportToHome(@NotNull Player player, @NotNull String name) {
+        if (teleportManager == null || player == null) return false;
+        Home home = homeManager.getHome(player.getUniqueId(), name);
+        if (home == null) return false;
+        teleportManager.startTeleport(player, home, null);
+        return true;
+    }
+
+    @Override
+    public boolean teleportToHome(@NotNull Player player, @NotNull Home home) {
+        if (teleportManager == null || player == null || home == null) return false;
+        teleportManager.startTeleport(player, home, null);
+        return true;
+    }
+
+    @Override
+    public boolean hasHome(@NotNull UUID playerUuid, @NotNull String name) {
+        if (homeManager == null) return false;
+        return homeManager.getHome(playerUuid, name) != null;
+    }
+
+    @Override
+    public int getHomeCount(@NotNull UUID playerUuid) {
+        if (homeManager == null) return 0;
+        return homeManager.getPlayerHomes(playerUuid).size();
+    }
+
+    @Override
+    public int getMaxHomes(@NotNull Player player) {
+        if (homeManager == null || player == null) return 0;
+        return homeManager.getPlayerLimit(player);
+    }
+
+    @Override
+    public @NotNull List<Home> getPublicHomes() {
+        if (homeManager == null) return Collections.emptyList();
+        try {
+            return homeManager.getAllPublicHomesAsync().get();
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public boolean trustPlayer(@NotNull Home home, @NotNull UUID guestUuid) {
+        if (homeManager == null || home == null || guestUuid == null) return false;
+        homeManager.addTrust(home, guestUuid);
+        return true;
+    }
+
+    @Override
+    public boolean untrustPlayer(@NotNull Home home, @NotNull UUID guestUuid) {
+        if (homeManager == null || home == null || guestUuid == null) return false;
+        homeManager.removeTrust(home, guestUuid);
+        return true;
     }
 }

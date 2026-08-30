@@ -128,26 +128,116 @@ Easily migrate from legacy home plugins with zero downtime:
 
 ## 💻 Developer API & Events
 
-SethomeX fires custom cancellable events for developers:
+SethomeX exposes a clean developer API through the `SethomeX-API` module, published on **JitPack**.
 
-### `PlayerSetHomeEvent`
+### Adding the Dependency
+
+#### Maven (`pom.xml`)
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.Skytoone</groupId>
+        <artifactId>SethomeX-API</artifactId>
+        <version>1.0.7</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+```
+
+#### Gradle (`build.gradle`)
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compileOnly 'com.github.Skytoone:SethomeX-API:1.0.7'
+}
+```
+
+---
+
+### Obtaining the API Instance
+
+```java
+import fr.skynex.sethomex.api.SethomeXAPI;
+import fr.skynex.sethomex.api.util.SethomeXHook;
+
+// Recommended: via SethomeXHook (null-safe Optional)
+SethomeXHook.getAPI().ifPresent(api -> {
+    // use api here
+});
+
+// Alternative: via Bukkit Services Manager
+SethomeXAPI api = getServer().getServicesManager()
+    .load(SethomeXAPI.class);
+```
+
+---
+
+### 🔧 API Method Reference
+
+```java
+// Retrieve a specific home
+Optional<Home> home = api.getHome(player.getUniqueId(), "base");
+
+// Get all homes of a player
+List<Home> homes = api.getHomes(player.getUniqueId());
+
+// Programmatically set a home
+api.setHome(player.getUniqueId(), "shop", location);
+
+// Delete a home
+api.deleteHome(player.getUniqueId(), "old_base");
+
+// Initiate home teleportation (with warmup/cooldowns)
+api.teleportToHome(player, "base");
+
+// Check if player owns a home
+boolean exists = api.hasHome(player.getUniqueId(), "base");
+
+// Get player home limit and count
+int count = api.getHomeCount(player.getUniqueId());
+int limit = api.getMaxHomes(player);
+
+// Retrieve all public homes across the server
+List<Home> publicHomes = api.getPublicHomes();
+
+// Trust / untrust players for home access
+api.trustPlayer(home, friendUuid);
+api.untrustPlayer(home, friendUuid);
+```
+
+---
+
+### 📡 Custom Events
+
+SethomeX fires three cancellable Bukkit events for developers:
+
+#### `PlayerSetHomeEvent`
 Fired when a player attempts to create a new home point.
 
 ```java
 @EventHandler
 public void onSetHome(PlayerSetHomeEvent event) {
     Player player = event.getPlayer();
-    String homeName = event.getHomeName();
-    Location loc = event.getLocation();
+    Home home = event.getHome();
 
-    if (loc.getWorld().getName().equals("spawn")) {
+    if (home.getLocation().getWorld().getName().equalsIgnoreCase("spawn")) {
         event.setCancelled(true);
         player.sendMessage("You cannot set homes in spawn!");
     }
 }
 ```
 
-### `PlayerTeleportHomeEvent`
+#### `PlayerTeleportHomeEvent`
 Fired when a player initiates a home teleportation.
 
 ```java
@@ -157,6 +247,17 @@ public void onHomeTeleport(PlayerTeleportHomeEvent event) {
     Home home = event.getHome();
 
     // Custom logic before warmup starts
+}
+```
+
+#### `PlayerDeleteHomeEvent`
+Fired when a home is deleted.
+
+```java
+@EventHandler
+public void onDeleteHome(PlayerDeleteHomeEvent event) {
+    Player player = event.getPlayer();
+    Home home = event.getHome();
 }
 ```
 
@@ -175,10 +276,36 @@ cd SethomeX
 mvn clean package
 ```
 
-The compiled JAR will be available in `target/SethomeX.jar`.
+The compiled plugin JAR will be available at `target/SethomeX-1.0.7.jar`.
+
+### Project Structure
+```
+SethomeX/
+├── SethomeX-API/           # Public API module (events, interface, hook, models)
+│   └── src/main/java/fr/skynex/sethomex/
+│       ├── api/
+│       │   ├── SethomeXAPI.java                 # Main API interface
+│       │   ├── util/SethomeXHook.java           # Safe API accessor
+│       │   └── events/
+│       │       ├── PlayerSetHomeEvent.java
+│       │       ├── PlayerTeleportHomeEvent.java
+│       │       └── PlayerDeleteHomeEvent.java
+│       └── models/Home.java                    # Home data model
+└── SethomeX-Core/          # Plugin implementation module
+    └── src/main/java/fr/skynex/sethomex/
+        ├── SethomeX.java                       # Main plugin class & API impl
+        ├── commands/
+        ├── gui/
+        ├── integration/
+        ├── listeners/
+        ├── managers/
+        ├── storage/
+        └── util/
+```
 
 ---
 
 ## 📄 License
 
 SethomeX is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+

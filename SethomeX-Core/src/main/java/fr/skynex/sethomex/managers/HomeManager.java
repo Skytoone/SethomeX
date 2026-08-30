@@ -327,6 +327,67 @@ public class HomeManager {
         });
     }
 
+    public void saveHome(Home home) {
+        if (home == null) return;
+        UUID uuid = home.getPlayerUuid();
+        Map<String, Home> playerHomes = cache.getIfPresent(uuid);
+        if (playerHomes == null) {
+            playerHomes = new ConcurrentHashMap<>();
+            cache.put(uuid, playerHomes);
+        }
+        playerHomes.put(home.getName().toLowerCase(), home);
+
+        databaseExecutor.execute(() -> {
+            boolean isMySQL = plugin.getDatabaseManager().isMySQL();
+            String query;
+            if (isMySQL) {
+                query = "INSERT INTO sethomex_homes (player_uuid, home_name, world_name, x, y, z, yaw, pitch, icon_material, icon_texture, is_public, visits, is_respawn, category, description, welcome_message, visit_fee, music_disc, time_lock, weather_lock, is_sponsored, sponsored_until) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                        + "ON DUPLICATE KEY UPDATE world_name = VALUES(world_name), x = VALUES(x), y = VALUES(y), z = VALUES(z), yaw = VALUES(yaw), pitch = VALUES(pitch), icon_material = VALUES(icon_material), icon_texture = VALUES(icon_texture), is_public = VALUES(is_public), visits = VALUES(visits), is_respawn = VALUES(is_respawn), category = VALUES(category), description = VALUES(description), welcome_message = VALUES(welcome_message), visit_fee = VALUES(visit_fee), music_disc = VALUES(music_disc), time_lock = VALUES(time_lock), weather_lock = VALUES(weather_lock), is_sponsored = VALUES(is_sponsored), sponsored_until = VALUES(sponsored_until)";
+            } else {
+                query = "INSERT OR REPLACE INTO sethomex_homes (player_uuid, home_name, world_name, x, y, z, yaw, pitch, icon_material, icon_texture, is_public, visits, is_respawn, category, description, welcome_message, visit_fee, music_disc, time_lock, weather_lock, is_sponsored, sponsored_until) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            }
+
+            try (Connection conn = plugin.getDatabaseManager().getConnection();
+                    PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setString(1, uuid.toString());
+                stmt.setString(2, home.getName());
+                stmt.setString(3, home.getWorldName());
+                stmt.setDouble(4, home.getX());
+                stmt.setDouble(5, home.getY());
+                stmt.setDouble(6, home.getZ());
+                stmt.setFloat(7, home.getYaw());
+                stmt.setFloat(8, home.getPitch());
+                stmt.setString(9, home.getIconMaterial().name());
+                stmt.setString(10, home.getIconTexture());
+                stmt.setInt(11, home.isPublic() ? 1 : 0);
+                stmt.setLong(12, home.getVisits());
+                stmt.setInt(13, home.isRespawn() ? 1 : 0);
+                stmt.setString(14, home.getCategory());
+                stmt.setString(15, home.getDescription());
+                stmt.setString(16, home.getWelcomeMessage());
+                stmt.setDouble(17, home.getVisitFee());
+                stmt.setString(18, home.getMusicDisc());
+                stmt.setLong(19, home.getTimeLock());
+                stmt.setString(20, home.getWeatherLock());
+                stmt.setInt(21, home.isSponsored() ? 1 : 0);
+                stmt.setLong(22, home.getSponsoredUntil());
+                stmt.executeUpdate();
+
+                if (plugin.getMapIntegrationManager() != null) {
+                    plugin.getMapIntegrationManager().syncHome(home);
+                }
+
+                plugin.getBungeeSyncManager().sendSyncMessage("INVALIDATE_CACHE", home.getPlayerUuid(), null);
+
+            } catch (SQLException e) {
+                plugin.getLogger().severe("Error saving home " + home.getName() + " for " + uuid + " : " + e.getMessage());
+            }
+        });
+    }
+
     /**
      * Supprime un home du cache et de la base de données.
      */

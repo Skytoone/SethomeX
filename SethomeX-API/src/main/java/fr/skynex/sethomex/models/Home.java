@@ -176,7 +176,6 @@ public class Home {
     }
 
     public Set<UUID> getTrustedPlayers() {
-        // Nettoyer les expirés lors de l'accès
         trustedPlayers.keySet().removeIf(guest -> {
             Long expiry = trustedPlayers.get(guest);
             boolean expired = expiry != null && expiry != -1L && System.currentTimeMillis() > expiry;
