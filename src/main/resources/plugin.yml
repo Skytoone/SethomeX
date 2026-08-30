@@ -1,0 +1,52 @@
+name: SethomeX
+version: '${project.version}'
+main: fr.skynex.sethomex.SethomeX
+api-version: '1.21'
+folia-supported: true
+author: Skynex
+description: A high-end, modern, and ultra-intuitive home plugin for Paper servers.
+
+commands:
+  sethome:
+    description: Set a new home location.
+    usage: /sethome [name]
+    aliases: [sethomes, seth]
+    permission: sethomex.command.sethome
+  home:
+    description: Teleport to a home or open the user interface.
+    usage: /home [name]
+    aliases: [homes, h]
+    permission: sethomex.command.home
+  delhome:
+    description: Delete a registered home location.
+    usage: /delhome [name]
+    aliases: [delhomes, dh]
+    permission: sethomex.command.delhome
+  sethomex:
+    description: Main administration command for SethomeX.
+    usage: /sethomex [reload/info]
+    aliases: [shx]
+    permission: sethomex.command.admin
+
+permissions:
+  sethomex.command.sethome:
+    description: Allows usage of /sethome
+    default: true
+  sethomex.command.home:
+    description: Allows usage of /home and access to GUI
+    default: true
+  sethomex.command.delhome:
+    description: Allows usage of /delhome
+    default: true
+  sethomex.command.admin:
+    description: Grants full administrative access to SethomeX
+    default: op
+  sethomex.bypass.cooldown:
+    description: Bypasses teleport warmups and cooldowns
+    default: false
+  sethomex.bypass.combat:
+    description: Bypasses combat restrictions for teleporting
+    default: false
+  sethomex.bypass.cost:
+    description: Bypasses economy costs for setting homes or teleporting
+    default: false

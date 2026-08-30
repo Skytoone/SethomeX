@@ -1,0 +1,153 @@
+[CENTER]
+[SIZE=7][B][COLOR=#FFD700]SETHOME[/COLOR][COLOR=#D3D3D3]X[/COLOR][/B][/SIZE]
+[SIZE=3][COLOR=#888888]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/COLOR][/SIZE]
+[SIZE=4][COLOR=#CCCCCC]The Ultimate Modern & Intuitive Home System for Paper[/COLOR][/SIZE]
+[SIZE=3][COLOR=#888888]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/COLOR][/SIZE]
+
+[SIZE=4][COLOR=#D3D3D3]SethomeX elevates your teleportation mechanics to the next generation. Combining ultra-aesthetic 3D particle animations, seamless cross-server database syncing, a dynamic item-customization GUI, and hardened safety checks. Perfectly optimized for [B]1.21.4+[/B].[/COLOR][/SIZE]
+
+[/CENTER]
+
+[LEFT]
+[SIZE=5][B][COLOR=#FFD700]✨  CORE FEATURES[/COLOR][/B][/SIZE]
+[COLOR=#888888]────────────────────────────────────────────────────[/COLOR]
+
+[LIST]
+[*][B][COLOR=#FFD700]Dynamic 3D Warmups[/COLOR][/B] [COLOR=#AAAAAA]— Stunning procedural particle shapes (Spiral, Ring, Shield) swirling around the player during countdown.[/COLOR]
+[*][B][COLOR=#FFD700]Modern Home GUI[/COLOR][/B] [COLOR=#AAAAAA]— A responsive, professional inventory interface to visualize and manage all your residences effortlessly.[/COLOR]
+[*][B][COLOR=#FFD700]Icon Personalization[/COLOR][/B] [COLOR=#AAAAAA]— Let players choose distinct GUI icons for each home through an elegant built-in selector menu.[/COLOR]
+[*][B][COLOR=#FFD700]Cross-Server Data Engine[/COLOR][/B] [COLOR=#AAAAAA]— Native SQLite support for single servers and high-performance MySQL (HikariCP) for large networks.[/COLOR]
+[*][B][COLOR=#FFD700]Hardened Safety Matrix[/COLOR][/B] [COLOR=#AAAAAA]— Prevents warping into lava, the void, or suffocation. Automatically denies setting homes in mid-air.[/COLOR]
+[*][B][COLOR=#FFD700]Smart Interruption[/COLOR][/B] [COLOR=#AAAAAA]— Intelligently cancels teleport requests on player movement, taken damage, or active PvP combat.[/COLOR]
+[*][B][COLOR=#FFD700]Tiered Limit Engine[/COLOR][/B] [COLOR=#AAAAAA]— Define custom home limits linked directly to permission groups (e.g. VIP, MVP) effortlessly.[/COLOR]
+[*][B][COLOR=#FFD700]Spatial Audio Design[/COLOR][/B] [COLOR=#AAAAAA]— Immersive 3D counts and success jingles that enrich the teleportation experience.[/COLOR]
+[*][B][COLOR=#FFD700]Rich Aesthetic Control[/COLOR][/B] [COLOR=#AAAAAA]— Choose between Flame, Portal, Cherry Leaves, Enchant, and many more modern particles.[/COLOR]
+[*][B][COLOR=#FFD700]PlaceholderAPI Support[/COLOR][/B] [COLOR=#AAAAAA]— Expose current home counts, max limits, and next available space data to scoreboard and chat engines.[/COLOR]
+[*][B][COLOR=#FFD700]Zero-Lag Architecture[/COLOR][/B] [COLOR=#AAAAAA]— Asynchronous database queries ensure server main thread stays absolutely jitter-free.[/COLOR]
+[*][B][COLOR=#FFD700]Command Aliases[/COLOR][/B] [COLOR=#AAAAAA]— Shorthand support (/h, /shx, /seth) for ultimate player convenience.[/COLOR]
+[/LIST]
+
+[SIZE=3] [/SIZE]
+
+[SIZE=5][B][COLOR=#FFD700]💎  WHY CHOOSE SETHOMEX?[/COLOR][/B][/SIZE]
+[COLOR=#888888]────────────────────────────────────────────────────[/COLOR]
+
+[LIST]
+[*][B][COLOR=#FFFFFF]Beyond The Commands[/COLOR][/B] [COLOR=#AAAAAA]— Why settle for plain text? SethomeX transforms a standard feature into a highly visual, satisfying, and tactile server element.[/COLOR]
+[*][B][COLOR=#FFFFFF]Enterprise Grade Syncing[/COLOR][/B] [COLOR=#AAAAAA]— Built with HikariCP connection pooling, homes load instantly across any number of proxy-connected instances.[/COLOR]
+[*][B][COLOR=#FFFFFF]Config-First Philosophy[/COLOR][/B] [COLOR=#AAAAAA]— Everything from inventory fillers, countdown timers, sounds, and security toggles is instantly customizable without code.[/COLOR]
+[/LIST]
+
+[SIZE=3] [/SIZE]
+
+[SIZE=5][B][COLOR=#FFD700]🔌  PLUG & PLAY INTEGRATIONS[/COLOR][/B][/SIZE]
+[COLOR=#888888]────────────────────────────────────────────────────[/COLOR]
+[COLOR=#AAAAAA]SethomeX fits natively inside your ecosystem. Out-of-the-box harmony with:[/COLOR]
+
+[CENTER]
+[SIZE=4][B][COLOR=#D3D3D3]● PlaceholderAPI  ●  LuckPerms  ●  EssentialsX  ●  CMI  ●  HikariCP  ●  GeyserMC[/COLOR][/B][/SIZE]
+[/CENTER]
+
+[SIZE=3] [/SIZE]
+
+[SIZE=5][B][COLOR=#FFD700]🛠️  COMMANDS[/COLOR][/B][/SIZE]
+[COLOR=#888888]────────────────────────────────────────────────────[/COLOR]
+
+[TABLE]
+[TR]
+[TD][B][COLOR=#FFD700]/home [nom][/COLOR][/B][/TD]
+[TD][COLOR=#AAAAAA]Teleport to home or open visual GUI[/COLOR][/TD]
+[/TR]
+[TR]
+[TD][B][COLOR=#FFD700]/sethome [nom][/COLOR][/B][/TD]
+[TD][COLOR=#AAAAAA]Set your current location as a home[/COLOR][/TD]
+[/TR]
+[TR]
+[TD][B][COLOR=#FFD700]/delhome [nom][/COLOR][/B][/TD]
+[TD][COLOR=#AAAAAA]Delete an existing home point[/COLOR][/TD]
+[/TR]
+[TR]
+[TD][B][COLOR=#FFD700]/shx reload[/COLOR][/B][/TD]
+[TD][COLOR=#AAAAAA]Reload entire engine configuration[/COLOR][/TD]
+[/TR]
+[/TABLE]
+
+[SIZE=3] [/SIZE]
+
+[SIZE=5][B][COLOR=#FFD700]📄  CONFIGURATION OVERVIEW[/COLOR][/B][/SIZE]
+[COLOR=#888888]────────────────────────────────────────────────────[/COLOR]
+[COLOR=#AAAAAA]Generates a clean [B]config.yml[/B] with rich annotation support. Here is the logical structure:[/COLOR]
+
+[SIZE=3] [/SIZE]
+
+[CODE=yaml]
+# -------------------------------------------------------------------------#
+#                       SethomeX Configuration Engine                     #  
+# -------------------------------------------------------------------------#
+
+database:
+  # Types supported: SQLITE (local) or MYSQL (multi-server sync)
+  type: "SQLITE"
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "sethomex"
+    pool:
+      maximum-size: 10
+
+teleport:
+  # Warmup time in seconds before teleportation
+  cooldown: 3
+  cancel-on-move: true
+  cancel-on-damage: true
+  cancel-in-combat: true
+
+# Home limits tied directly to group permissions: sethomex.limit.<group>
+limits:
+  default: 3
+  vip: 5
+  vip-plus: 10
+  admin: 100
+
+effects:
+  countdown:
+    # Supported: FLAME, ENCHANT, HAPPY_VILLAGER, WITCH, END_ROD, PORTAL, CHERRY_LEAVES
+    particle: "PORTAL"
+    # Visual Style: SPIRAL (ascending), RING (planar), SHIELD (spherical)
+    style: "SPIRAL"
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+  success:
+    particle: "EXPLOSION"
+    sound: "ENTITY_ENDERMAN_TELEPORT"
+
+gui:
+  title: "&e&lSethomeX &8» &fMes Habitations"
+  default-home-item: "RED_BED"
+  fill-empty-slots: true
+  
+  # Selection roster for the dynamic icon personalization system
+  icon-selector:
+    icons:
+      - "RED_BED"
+      - "COMPASS"
+      - "GRASS_BLOCK"
+      - "NETHERITE_SWORD"
+      - "CAMPFIRE"
+      - "DIAMOND"
+
+safety:
+  # Verifies landing zone safety (prevents lava, void, suffocation)
+  check-safe-destination: true
+  # Denies creating homes suspended in the air
+  prevent-unsafe-sethome: true
+[/CODE]
+
+[/LEFT]
+
+[CENTER]
+[SIZE=3][COLOR=#888888]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/COLOR][/SIZE]
+[SIZE=3][COLOR=#AAAAAA]Need assistance or setup guidance? Connect with us![/COLOR][/SIZE]
+[SIZE=3][COLOR=#888888]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/COLOR][/SIZE]
+
+[URL='https://discord.gg/ycxRfd44fm'][IMG]https://image.noelshack.com/fichiers/2026/19/2/1778002404-universal-banner-edited-final-177800224786112.png[/IMG][/URL]
+[/CENTER]

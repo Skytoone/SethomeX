@@ -1,0 +1,167 @@
+# -------------------------------------------------------------------------#
+#                      Language File (Messages) - SethomeX                 #
+# -------------------------------------------------------------------------#
+# Supports MiniMessage format (e.g.: <gold>, <gradient:#ff0000:#0000ff>, <italic>)
+# And traditional Legacy color codes (&e, &c, &f)
+
+prefix: "<yellow>[SethomeX] "
+
+commands:
+  only-players: "<red>Only players can execute these commands."
+  no-permission: "<red>You don't have permission to execute this command."
+  unknown-subcommand: "<red>Unknown sub-command."
+  reloaded: "<green>Configuration and messages successfully reloaded!"
+  admin-only-players: "<red>Only players can open the Admin GUI."
+  system-info-header: "<dark_gray><strike>---------------------------------------------</strike>\n<gold><bold>★ <yellow><bold>SethomeX System Info <gold><bold>★\n"
+  system-info-db: "<gray>• Database: <green>{db}"
+  system-info-spigot: "<gray>• Spigot Version: <white>{version}"
+  system-info-java: "<gray>• Java Version: <white>{version}"
+  system-info-ram: "<gray>• Server RAM Usage: <yellow>{ram}MB"
+  profiler-header: "<dark_gray><strike>---------------------------------------------</strike>\n<gold><bold>★ <yellow><bold>SethomeX Profiler (Caffeine Stats) <gold><bold>★\n"
+  profiler-cache-title: "<yellow>Homes Cache:"
+  profiler-cache-hit: "<gray>• Hit Rate: <green>{hit}%"
+  profiler-cache-evictions: "<gray>• Evictions: <red>{evictions}"
+  profiler-cache-load-time: "<gray>• Total Load Time: <white>{time}ms"
+  profiler-anti-spam-title: "<yellow>Visits Anti-Spam Cache:"
+  profiler-anti-spam-hit: "<gray>• Hit Rate: <green>{hit}%"
+  profiler-anti-spam-evictions: "<gray>• Evictions: <red>{evictions}"
+  import-usage: "<red>Usage: /sethomex import <essentials|cmi|sunlight|betterhomes|ultimatehomes>"
+  import-unknown: "<red>Unknown importer type! Supported: <yellow>essentials, cmi, sunlight, betterhomes, ultimatehomes"
+  description-usage: "<red>Usage: /home description <home_name> <description...>"
+  description-success: "<green>[Description] Description for home <white>{name} <green>updated: <white>{description}"
+  welcome-usage: "<red>Usage: /home welcome <home_name> <welcome_message...>"
+  welcome-success: "<green>[Welcome] Welcome message for home <white>{name} <green>updated: <white>{welcome}"
+  fee-usage: "<red>Usage: /home fee <home_name> <amount>"
+  fee-positive: "<red>Error: Amount must be a positive number."
+  fee-max-limit: "<red>Error: Maximum allowed fee is <yellow>{max}$<red>."
+  fee-public-only: "<red>Error: You can only configure a fee on public homes!"
+  fee-success: "<green>[Fee] Visit fee for home <white>{name} <green>updated to <yellow>{amount}<green>."
+  ban-usage: "<red>Usage: /home {cmd} <home_name> <player>"
+  ban-not-permitted: "<red>Error: You do not own this home or do not have permission to modify it."
+  ban-unknown-player: "<red>Error: Unknown player."
+  ban-cannot-self: "<red>Error: You cannot ban yourself!"
+  ban-success: "<green>[Moderation] Player <yellow>{player} <green>has been banned from home <white>{name}<green>."
+  unban-success: "<green>[Moderation] Player <yellow>{player} <green>has been unbanned from home <white>{name}<green>."
+  history-not-permitted: "<red>Error: You do not own this home or do not have permission to modify it."
+  history-header: "<dark_gray><strike>---------------------------------------------</strike>\n<gold><bold>★ <yellow><bold>Visit History for: <white>{name} <gold><bold>★\n"
+  history-empty: "<gray>No visits recorded yet."
+  history-entry: "<yellow>- <white>{player} <gray>on {date}"
+  sponsor-not-permitted: "<red>Error: You do not own this home or do not have permission to modify it."
+  sponsor-public-only: "<red>Error: Only public homes can be sponsored."
+  sponsor-usage: "<red>Usage: /home sponsor <home_name> <days>"
+  sponsor-positive-days: "<red>Error: Number of days must be greater than 0."
+  sponsor-insufficient-funds: "<red>Error: Insufficient funds. You need <yellow>{cost}<red> for this action."
+  sponsor-success: "<green>[Sponsor] Your home <white>{name} <green>has been successfully sponsored for <white>{days} <green>days (Cost: <yellow>{cost}<green>)."
+  rentslots-usage: "<red>Usage: /home rentslots <amount> <days>"
+  rentslots-positive: "<red>Error: Amounts must be greater than 0."
+  rentslots-insufficient-funds: "<red>Error: Insufficient funds. You need <yellow>{cost}<red> for this action."
+  rentslots-success: "<green>[Rent] You rented <white>{amount} <green>additional home slot(s) for <white>{days} <green>days (Cost: <yellow>{cost}<green>)."
+  sharefolder-usage: "<red>Usage: /home sharefolder <folder_name> <player>"
+  sharefolder-unknown-player: "<red>Error: Unknown player."
+  sharefolder-cannot-self: "<red>Error: You cannot share a folder with yourself!"
+  sharefolder-empty: "<red>Error: No homes found in category <yellow>{folder}<red>."
+  sharefolder-success: "<green>[Share] Folder <yellow>{folder} <green>(<white>{count} <green>homes) has been shared with <yellow>{player}<green>."
+  share-duration-invalid: "<red>Invalid duration! Examples: 30m, 2h, 1d."
+  share-trust-temp: "<green>[Share] Temporary access (<white>{role}<green>) granted to <white>{player} <green>for home <white>{name} <green>for <white>{duration}<green>."
+  share-trust-perm: "<green>[Share] Permanent access (<white>{role}<green>) granted to <white>{player} <green>for home <white>{name}<green>."
+  invite-offline: "<red>Player <yellow>{player} <red>is not online!"
+  invite-home-deleted: "<red>This home no longer exists."
+  invite-multiple-pending: "<red>You have multiple invitations! Please specify the player: <yellow>/home accept <player>"
+
+sethome:
+  success: "<green>Home <white>{name} <green>successfully set!"
+  error-invalid-name: "<red>Error: Your home name can only contain letters, numbers, hyphens, and underscores."
+  error-too-long: "<red>Error: Your home name must not exceed 24 characters."
+  error-limit-reached: "<red>Limit reached! You have already reached your maximum quota of <yellow>{limit} <red>homes."
+  error-unsafe-location: "<red>Error: You must stand on a solid block to set a home!"
+  error-blacklisted-world: "<red>Error: You cannot set a home in this world!"
+  error-world-limit-reached: "<red>Limit reached! You can only set up to <yellow>{limit} <red>homes in world <yellow>{world}."
+
+delhome:
+  usage: "<red>Usage: /delhome [name]"
+  success: "<green>Home <white>{name} <green>removed from your registry!"
+  error-not-found: "<red>Error: Home <white>{name} <red>does not exist."
+
+home:
+  error-not-found: "<red>Error: No home found under the name <white>{name}<red>."
+  admin-teleporting: "<gold>[ADMIN] <gray>Teleporting to <yellow>{player}<gray>'s home..."
+  admin-deleted: "<gold>[ADMIN] <green>Deleted <yellow>{player}<green>'s home <white>{name}<green>."
+  admin-not-found: "<red>(Admin) No home found for <yellow>{player} <red>under the name <white>{name}<red>."
+  error-no-homes: "<red>You do not have any homes registered yet."
+  category-usage: "<red>Usage: /home {cmd} <home_name> <category_name>"
+  category-set: "<green>Home <white>{name} <green>is now in category <yellow>{category}<green>!"
+  compass-usage: "<red>Usage: /home compass <home_name>"
+  compass-set: "<green>Your compass pointer has been set to your home <white>{name}<green>!"
+  list-header: "<dark_gray><strike>---------------------------------------------</strike>\n<gold><bold>★ <yellow><bold>Your SethomeX Registry <gold><bold>★\n"
+  list-footer: "\n<dark_gray><strike>---------------------------------------------"
+
+teleport:
+  starting: "<gray>Teleporting to <green>{name} <gray>in <gold>{seconds} seconds<gray>... <red>Don't move!"
+  actionbar-countdown: "<yellow>Teleporting in: <red>{seconds}s"
+  actionbar-success: "<green><bold>WELCOME HOME!"
+  actionbar-cancelled: "<red><bold>TELEPORTATION CANCELLED"
+  success: "<green>You have been teleported to your home <white>{name} <green>!"
+  cancelled-movement: "<red>Teleportation cancelled! You moved or took damage."
+  error-combat: "<red>Teleportation cancelled: You are currently in combat!"
+  error-global-cooldown: "<red>Action on cooldown! Wait <yellow>{seconds}s <red>before starting again."
+  error-world-not-loaded: "<red>Error: Destination world ({world}) is not loaded!"
+  hologram-text: "<yellow>Teleporting to <gold>{name}<gray>... <yellow>{seconds}s\n<gray>[{bar}<gray>]"
+
+safety:
+  lava: "<red>Teleportation cancelled: Unsafe destination (Lava present)!"
+  suffocation: "<red>Teleportation cancelled: Block obstructed (Suffocation risk)!"
+  void: "<red>Teleportation cancelled: Destination is in the void!"
+  region-denied: "<red>You do not have permission to access or set locations in this claim/territory!"
+  obstructed-teleport: "<yellow>Original destination obstructed! Teleported to the nearest safe point."
+
+gui:
+  home-deleted: "<green>Home <white>{name} <green>successfully deleted!"
+  icon-updated: "<green>Icon for home <white>{name} <green>has been updated!"
+  social-toggled: "<green>The public status of <white>{name} <green>has been set to {status}!"
+  respawn-set: "<green>Home <white>{name} <green>is now your respawn point!"
+  respawn-removed: "<yellow>Home <white>{name} <yellow>is no longer your respawn point."
+  error-public-disabled: "<red>Public homes are disabled on this server."
+  error-respawn-disabled: "<red>Respawning at homes is disabled on this server."
+  error-preview-disabled: "<red>Spectator preview is disabled on this server."
+
+economy:
+  insufficient-funds: "<red>Insufficient funds! You need <yellow>{cost}<red> for this action."
+  charged-create: "<gold>-{cost} <gray>deducted for home creation."
+  charged-teleport: "<gold>-{cost} <gray>deducted for movement."
+
+respawn:
+  at-home: "<aqua>Respawned at your Home <white>{name}<aqua> !"
+
+social:
+  toggled-public: "<green>Your home <white>{name} <green>is now <yellow>PUBLIC <green>!"
+  toggled-private: "<yellow>Your home <white>{name} <yellow>is now PRIVATE."
+  visiting: "<gray>Visiting <gold>{player}<gray>'s home (<white>{name}<gray>)..."
+  trust-added: "<green>You have authorized <white>{guest} <green>to access your home <yellow>{name}<green>!"
+  trust-removed: "<yellow>You have revoked <white>{guest}<yellow>'s permissions for your home <white>{name}<yellow>."
+  trust-received: "<gold>✨ <white>{owner} <gold>has granted you access to their home <white>{name} <gold>! Type <yellow>/home <owner> {name} <gold>to visit."
+  public-disabled: "<red>Public homes are disabled on this server."
+  cannot-invite-self: "<red>You cannot invite yourself!"
+  trust-usage: "<red>Usage: /home {cmd} <home_name> <player>"
+  banned-from-home: "<red>You are banned from this home by its owner ({owner})!"
+
+portal:
+  invalid-frame: "<red>Error: Invalid frame! The frame must be configured in config.yml."
+  particle-updated: "<green>Portal particle for home <white>{home} <green>updated to <yellow>{particle}<green>."
+  created: "<green>Portal successfully created for home <white>{home}<green>!"
+  no-access: "<red>You do not have access to this portal!"
+  teleporting: "<gray>Stepping into <gold>{owner}'s <gray>portal to home <white>{home}<gray>..."
+  destroyed: "<red>Your portal for home <white>{home} <red>has been destroyed!"
+  invalid-particle: "<red>Error: Invalid particle name! Example: FLAME, PORTAL, WITCH, SOUL_FIRE_FLAME..."
+  not-found: "<red>Error: No physical portal exists for the home <white>{name}<red>!"
+  creation-instruction: "<green>[Portals] Right-click the bottom-center block of your portal frame (e.g. 3x3 quartz frame) to link the home <white>{name}<green>."
+
+invite:
+  sent: "<green>Invitation sent to <white>{player} <green>for home <white>{home}<green>."
+  received: "<gold>✉ <yellow>{player} <gray>invites you to their home <white>{home}<gray>. Click <yellow><bold><click:run_command:/home accept {player}>[JOIN]</click> <gray>or type <yellow>/home accept {player} <gray>to accept (expires in 60s)."
+  accepted: "<green>Invitation accepted! Teleporting..."
+  expired: "<red>No pending or active invitation from this player."
+
+favorites:
+  added: "<green>Home <white>{name} <green>added to your favorites!"
+  removed: "<yellow>Home <white>{name} <yellow>removed from your favorites."
+  limit-reached: "<red>You can only have up to 7 favorites!"

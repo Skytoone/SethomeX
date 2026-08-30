@@ -1,0 +1,520 @@
+# -------------------------------------------------------------------------#
+#                       GUI Configuration - SethomeX                       #  
+# -------------------------------------------------------------------------#
+# All graphical interfaces can be customized here.
+# Supports MiniMessage (<red>, <bold>) and Legacy Color Codes (&e, &a).
+
+menus:
+  # -- MENU PRINCIPAL (Mes Homes) --
+  main:
+    title: "&e&lSethomeX &8» &fMy Homes"
+    title-folder: "&e&lSethomeX &8» &fFolder: &6{folder}"
+    items:
+      folder:
+        name: "&e&l📁 {category}"
+        lore:
+          - "&7&m------------------------"
+          - "&7Homes inside: &f{count}"
+          - "&7&m------------------------"
+          - "&e➔ Click: &aOpen Folder"
+          - "&7&m------------------------"
+      # Affichage d'une habitation personnelle
+      home:
+        name: "&b&l{name}"
+        lore:
+          - "&7&m------------------------"
+          - "&7Coordinates: &f{world} ({x}, {y}, {z})"
+          - "&7Status: {status}"
+          - "&7Respawn: {respawn}"
+          - "&7&m------------------------"
+          - "&e➔ Left Click : &aTeleport"
+          - "&6➔ Right Click : &fModify Icon"
+          - "&d➔ Shift+Left : &eToggle Public"
+          - "&b➔ Shift+Middle : &3Set as Respawn"
+          - "&c➔ Shift+Right : &4Delete"
+          - "&a➔ Drop Key (Q) : &dHome Settings"
+          - "&7&m------------------------"
+      
+      # Statuts d'état (utilisés dans le placeholder {status} et {respawn})
+      status-public: "&aPUBLIC"
+      status-private: "&cPRIVATE"
+      respawn-yes: "&a✔ YES"
+      respawn-no: "&7✘ NO"
+      
+      # Boutons de navigation et infos
+      info-book:
+        name: "&6&lHelp & Information"
+        lore:
+          - "&7&m------------------------"
+          - "&7Total Homes: &e{count}/{limit}"
+          - "&7&m------------------------"
+          - "&fManage your quick travel points"
+          - "&fhere. Click icons to travel."
+      
+      public-catalog:
+        name: "&d&l🌍 Public Catalog"
+        lore:
+          - "&7Click here to explore"
+          - "&7homes opened by the community."
+      
+      shared-homes:
+        name: "&b&l🤝 Shared Homes"
+        lore:
+          - "&7Explore homes shared"
+          - "&7with you by friends!"
+      
+      effects:
+        name: "&d&l✨ Teleport Effects"
+        lore:
+          - "&7Personalize your teleport style,"
+          - "&7particles, and sound effects!"
+          - ""
+          - "&e➔ Click: &aOpen Selector"
+
+  # -- CATALOGUE PUBLIC --
+  public-catalog:
+    title: "&e&lSethomeX &8» &dCatalog"
+    items:
+      home:
+        name: "&d&l{name}"
+        lore:
+          - "&7&m------------------------"
+          - "&7Owner: &f{owner}"
+          - "&7Visits: &e{visits}"
+          - "&7Likes: &b👍 {likes}"
+          - "&7Visit Fee: &6{fee}"
+          - "&7Description: &f{description}"
+          - "&7&m------------------------"
+          - "&e➔ Left Click: &aVisit this home"
+          - "&b➔ Right Click: &bLike / Unlike"
+          - "&d➔ Shift+Right: &dPreview home (5s)"
+          - "&7&m------------------------"
+      
+      info:
+        name: "&d&lPublic Exploration"
+        lore:
+          - "&7Shared homes: &e{count}"
+          - "&7Ranking: &f{ranking}"
+      
+      sorting:
+        name: "&6&l⚙️ Sorting Settings"
+        lore:
+          - "&7&m------------------------"
+          - "&7Currently sorted by:"
+          - " {mode}"
+          - "&7&m------------------------"
+          - "&e➔ Click: &fChange sort mode"
+          - "&7&m------------------------"
+      
+      sort-modes:
+        popularity: "&dBy Popularity &7(Visits)"
+        alphabetical: "&aAlphabetical &7(A-Z)"
+        random: "&eRandom"
+        likes: "&bBy Likes &7(👍)"
+
+  # -- HOMES PARTAGÉS (Invités) --
+  shared:
+    title: "&e&lSethomeX &8» &bShared"
+    items:
+      home:
+        name: "&b&l{name}"
+        lore:
+          - "&7&m------------------------"
+          - "&7Owner: &e{owner}"
+          - "&7&m------------------------"
+          - "&e➔ Left Click: &aJoin"
+          - "&7&m------------------------"
+
+  # -- MENU SÉLECTION D'ICÔNES --
+  icon-selector:
+    title: "&8» Choose an icon"
+    
+    # Functional list of standard materials
+    icons:
+      - "RED_BED"
+      - "COMPASS"
+      - "GRASS_BLOCK"
+      - "NETHERITE_SWORD"
+      - "CHEST"
+      - "CAMPFIRE"
+      - "OAK_LOG"
+      - "BOOKSHELF"
+      - "WATER_BUCKET"
+      - "ENDER_PEARL"
+      - "GOLD_INGOT"
+      - "DIAMOND"
+      - "PLAYER_HEAD"
+
+    # Premium 3D Miniatures / Custom Head Textures (Base64 formats)
+    custom-heads:
+      "Small House": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjI1N2U0Y2MzNjVkYzJjNjg3MzI4Y2E2MDgwM2RiOTgxYzIyNDMxNjEyMmNlYTE3OGUxMmU2NjNhMWVmNDUifX19"
+      "Treasure Chest": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmYyYTI4NzY0MWQ4ZGEzYWM4MWI5MjhhMTMzOGNmNmJhNzM4MmQ5Y2E1ZmNmYzM1YWY2OTQ1NDVkOTI2In19fQ=="
+      "Nether Portal": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI4ZjY3YTI1Mzg2YmUwNTBhNWFkOTVjMTNlMTNmY2IxYTM4ZDc5MjQ4Nzg3YzQ0N2ExOGU0YTZiMjYxNDIifX19"
+      "Ender Crystal": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRhNGY5NTYyMTAyZTNkMzkwZGU1ZDAxYmIzMjg3YjViM2Q4Nzk3YWY2MTU3NDNlYWY3OTkxNTc2OTFiNDQ3In19fQ=="
+      "Golden Trophy": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTY5YzQ5MmE3NTcwYmM5MWE1Y2RmNzU2ZjE0ZWNhOTMyYWRkYWJiMTE4ODc1OTlmZWE2YTlmNTBiNTc4MDFlMyJ9fX0="
+      "Castle Tower": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWMyMDk2YTBhYTVjZDJiYTJjYjk5ZjFhZDczMTRlYjg5NWI0ZThjNjM2ODNlZDc2YTlmMzg3OWY1OTYyMWM2In19fQ=="
+      "Forest Tent": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVkZmE3MzY2YjhiMTEzNTM1ZDZlYTcxMGQ0ZDljMTQ1NzY2OWU1MzhkYmI4OWU1MmMyNDhkNzM4NmM5NjQxMCJ9fX0="
+      "Magic Globe": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0NDA2YTg2OWU1YTUyODExMzAzMDRjY2EyNWNlNmQxZWFhZDM5NmIyYzAxM2E4YTg4NzMwYWMyMmE3MjY5In19fQ=="
+      "Spooky Skull": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2Q5YTc5ODIyMDc0OWI4YTBhYWZhYzcxYzg1MDNjOWZlYTI5Y2JmZTNkNDk0NWE5ZTY5NWUxNTE0NjJmMGE5In19fQ=="
+    items:
+      icon-name: "&aSet icon to: &e{material}"
+      icon-lore:
+        - "&7Click to apply this icon to:"
+        - "&f{name}"
+
+  # -- MENU CONFIRMATION SUPPRESSION --
+  confirm-delete:
+    title: "&c⚠ Confirm Deletion?"
+    items:
+      display:
+        name: "&cDelete: &e{name} ?"
+      
+      confirm:
+        name: "&a&l[ CONFIRM ✅ ]"
+        lore:
+          - "&7Click to permanently delete"
+          - "&7this home."
+      
+      cancel:
+        name: "&c&l[ CANCEL ❌ ]"
+        lore:
+          - "&7Cancel and go back."
+
+  # -- SÉLECTION D'ICÔNE --
+  icons:
+    title: "&8Icons: {name} "
+    page-suffix: "&7({page}/{max})"
+    items:
+      category:
+        name: "&6&l⭐ &e{category}"
+        lore:
+          - "&7Premium 3D Miniature"
+          - "&e► Click to select"
+
+  # -- GESTION DES TRUSTS --
+  trusts:
+    title: "&8Manage Trusts: {name}"
+    items:
+      guest:
+        name: "&e{player}"
+        lore:
+          - "&7Click to &crevoke&7 access."
+      info:
+        name: "&aHow to add someone?"
+        lore:
+          - "&7Type: &e/home trust {name} <player>"
+      add-guest:
+        name: "&a&l+ Add Trust"
+        lore:
+          - "&7Click to select an online"
+          - "&7player to authorize."
+
+  # -- SÉLECTEUR DE JOUEURS À AJOUTER --
+  add-trust:
+    title: "&e&lSethomeX &8» &fAdd Trust"
+
+  # -- GESTIONNAIRE D'INVITÉ EN PARTICULIER --
+  guest-trust-manager:
+    title: "&e&lManage Trust &8» &f{player}"
+    items:
+      duration:
+        permanent: "&e&lPermanent Access"
+        "30m": "&a&l30 Minutes Access"
+        "1h": "&b&l1 Hour Access"
+        "1d": "&d&l1 Day Access"
+      revoke:
+        name: "&c&l[ REVOKE ACCESS ❌ ]"
+        lore:
+          - "&7Immediately remove this player's"
+          - "&7access to your home."
+
+  # -- TELEPORT EFFECTS SELECTOR --
+  effects:
+    title: "&e&lSethomeX &8» &dTP Effects"
+    items:
+      status-selected: "&a✔ SELECTED"
+      status-unselected: "&e► Click to select"
+      
+      style-shield:
+        material: "SHIELD"
+        name: "&eStyle: &6SHIELD (Bubble)"
+        lore:
+          - "&7Classic protective bubble effect."
+          - ""
+          - "{status}"
+      style-spiral:
+        material: "AMETHYST_SHARD"
+        name: "&eStyle: &6SPIRAL"
+        lore:
+          - "&7Rising spiral of particles."
+          - ""
+          - "{status}"
+      style-ring:
+        material: "GOLDEN_CARROT"
+        name: "&eStyle: &6RING"
+        lore:
+          - "&7Double rotating ring around you."
+          - ""
+          - "{status}"
+      style-tornado:
+        material: "FEATHER"
+        name: "&eStyle: &6TORNADO"
+        lore:
+          - "&7Dynamic rising tornado."
+          - ""
+          - "{status}"
+      style-progressive-ring:
+        material: "CLAY_BALL"
+        name: "&eStyle: &6PROGRESSIVE RING"
+        lore:
+          - "&7Cercle de particules qui monte"
+          - "&7selon le warmup."
+          - ""
+          - "{status}"
+      style-beacon:
+        material: "BEACON"
+        name: "&eStyle: &6BEACON"
+        lore:
+          - "&7Faisceau de balise temporaire."
+          - ""
+          - "{status}"
+      style-implosion:
+        material: "HEART_OF_THE_SEA"
+        name: "&eStyle: &6IMPLOSION"
+        lore:
+          - "&7Vortex shrinking progressive ring"
+          - "&7imploding towards you."
+          - ""
+          - "{status}"
+          
+      part-portal:
+        material: "ENDER_PEARL"
+        name: "&dParticle: &5PORTAL"
+        lore:
+          - "&7Ender portal particles."
+          - ""
+          - "{status}"
+      part-flame:
+        material: "BLAZE_POWDER"
+        name: "&dParticle: &cFLAME"
+        lore:
+          - "&7Fiery flames."
+          - ""
+          - "{status}"
+      part-drip-water:
+        material: "WATER_BUCKET"
+        name: "&dParticle: &9DRIP_WATER"
+        lore:
+          - "&7Falling water drips."
+          - ""
+          - "{status}"
+      part-happy-villager:
+        material: "EMERALD"
+        name: "&dParticle: &aHAPPY_VILLAGER"
+        lore:
+          - "&7Green stars of happiness."
+          - ""
+          - "{status}"
+      part-cloud:
+        material: "WHITE_WOOL"
+        name: "&dParticle: &fCLOUD"
+        lore:
+          - "&7White smoke clouds."
+          - ""
+          - "{status}"
+      part-soul-fire-flame:
+        material: "SOUL_TORCH"
+        name: "&dParticle: &3SOUL_FLAME"
+        lore:
+          - "&7Blue soul flames."
+          - ""
+          - "{status}"
+      part-witch:
+        material: "GLOWSTONE_DUST"
+        name: "&dParticle: &dWITCH"
+        lore:
+          - "&7Magic purple particles."
+          - ""
+          - "{status}"
+          
+      sound-teleport:
+        material: "ENDER_EYE"
+        name: "&bSound: &3TELEPORT"
+        lore:
+          - "&7Classic Ender Teleport sound."
+          - ""
+          - "{status}"
+      sound-pling:
+        material: "NOTE_BLOCK"
+        name: "&bSound: &3PLING"
+        lore:
+          - "&7Harmonious Pling melody."
+          - ""
+          - "{status}"
+      sound-levelup:
+        material: "EXPERIENCE_BOTTLE"
+        name: "&bSound: &3LEVEL_UP"
+        lore:
+          - "&7Triumphant Level Up sound."
+          - ""
+          - "{status}"
+
+  # -- PARAMÈTRES DU HOME --
+  home-settings:
+    title: "&e&lSettings &8» &f{name}"
+    items:
+      icon:
+        name: "&aChange Icon"
+        lore:
+          - "&7Current: &e{item}"
+          - ""
+          - "&e➔ Click: &aChoose another icon"
+      public:
+        name: "&eStatus: {status}"
+        lore:
+          - "&7Change who can find your home"
+          - "&7in the public catalog."
+          - ""
+          - "&e➔ Click: &aToggle visibility"
+      respawn:
+        name: "&6Set as Respawn: {respawn}"
+        lore:
+          - "&7Automatically respawn at this"
+          - "&7location when you die."
+          - ""
+          - "&e➔ Click: &aToggle respawn point"
+      trusts:
+        name: "&bManage Trusts & Guests"
+        lore:
+          - "&7Authorize friends to teleport"
+          - "&7to your private homes."
+          - ""
+          - "&e➔ Click: &aManage guest list"
+      category:
+        name: "&dFolder/Category: &5{category}"
+        lore:
+          - "&7Organize this home inside a folder"
+          - "&7to keep your list clean."
+          - ""
+          - "&e➔ Click: &aManage folder"
+      description:
+        name: "&aEdit Description"
+        lore:
+          - "&7Add a custom description shown"
+          - "&7in the public catalog GUI."
+          - ""
+          - "&7Current:"
+          - "&f{description}"
+          - ""
+          - "&e➔ Click: &aSet new description"
+      welcome:
+        name: "&dEdit Welcome Message"
+        lore:
+          - "&7Add a custom title/message shown on"
+          - "&7screen to visitors when they arrive."
+          - ""
+          - "&7Current:"
+          - "&f{welcome}"
+          - ""
+          - "&e➔ Click: &aSet new message"
+      fee:
+        name: "&6Edit Visit Fee"
+        lore:
+          - "&7Set a fee that players must pay"
+          - "&7to teleport to your home."
+          - ""
+          - "&7Current Fee:"
+          - "&f{fee}"
+          - ""
+          - "&e➔ Click: &aSet visit fee"
+      delete:
+        name: "&c&lDELETE HOME"
+        lore:
+          - "&cPermanently delete this home."
+          - "&7This action is irreversible!"
+          - ""
+          - "&c➔ Click: &4Delete home"
+
+  # -- SÉLECTEUR DE CATÉGORIES (DOSSIERS) --
+  category-selector:
+    title: "&e&lCategory Selector"
+    items:
+      category:
+        name: "&e&l📁 {category}"
+        lore:
+          - "&7Click to move your home"
+          - "&7to this folder."
+      remove:
+        name: "&c&lRemove from Folder"
+        lore:
+          - "&7Remove this home from its"
+          - "&7current category/folder."
+      create:
+        name: "&a&lCreate Folder"
+        lore:
+          - "&7Create and move this home to"
+          - "&7a brand new folder/category."
+
+  # -- PANNEAU D'ADMINISTRATION DES JOUEURS --
+  admin-players:
+    title: "&c&lAdmin &8» &fRegistered Players"
+    items:
+      player:
+        name: "&e{player}"
+        lore:
+          - "&7Owner of various homes."
+          - ""
+          - "&e➔ Click: &aInspect homes"
+
+  # -- PANNEAU D'ADMINISTRATION DES HOMES D'UN JOUEUR --
+  admin-homes:
+    title: "&c&lAdmin &8» &fHomes: {player}"
+    items:
+      home:
+        name: "&b{name}"
+        lore:
+          - "&7&m------------------------"
+          - "&7World: &f{world}"
+          - "&7Coordinates: &f{x}, {y}, {z}"
+          - "&7Status: &f{status}"
+          - "&7&m------------------------"
+          - "&e➔ Click: &aTeleport to home"
+          - "&c➔ Shift-Right Click: &4Delete home"
+          - "&7&m------------------------"
+      info:
+        name: "&eOverview of &6{player}"
+        lore:
+          - "&7Total homes owned: &f{count}"
+
+# -- ÉLÉMENTS COMMUNS (Navigation, Boutons répétés) --
+common:
+  buttons:
+    back:
+      name: "&c⬅ Back"
+    return-homes:
+      name: "&e&l⬅ My Homes"
+    back-to-main:
+      name: "&e&l⬅ My Homes"
+    next-page:
+      name: "&aNext Page ➡"
+    previous-page:
+      name: "&a⬅ Previous Page"
+    next-page-numbered:
+      name: "&eNext Page ({page}) ➡"
+    previous-page-numbered:
+      name: "&e⬅ Previous Page ({page})"
+  
+  visuals:
+    background-pane: " "
+
+  # Configuration of time formats used in GUIs
+  time:
+    permanent: "Permanent"
+    expired: "Expired"
+    suffix-days: "d"
+    suffix-hours: "h"
+    suffix-minutes: "m"
+    suffix-seconds: "s"
+    remaining-lore: "&7Time remaining: &e{time}"
+    duration-lore: "&7Duration: &e{time}"
+

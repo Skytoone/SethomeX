@@ -1,0 +1,232 @@
+# -------------------------------------------------------------------------#
+#                       Official SethomeX Configuration                     #  
+# -------------------------------------------------------------------------#
+
+# Data storage system
+database:
+  # Supported types: SQLITE (local) or MYSQL (for multi-server networks)
+  type: "SQLITE"
+  
+  # Configuration for MYSQL mode (ignored if SQLITE is active)
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "sethomex"
+    username: "root"
+    password: ""
+    use-ssl: false
+    # HikariCP connection pool settings
+    pool:
+      maximum-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+
+  # Automatic Maintenance Tasks
+  maintenance:
+    auto-purge:
+      # Remove homes belonging to players who haven't joined for X days?
+      enabled: false
+      # Duration threshold (in days)
+      days-inactive: 60
+
+# General Teleport Settings
+teleport:
+  # Countdown time before teleporting (in seconds). '0' for instant.
+  cooldown: 3
+  
+  # Cancel teleport if the player moves?
+  cancel-on-move: true
+  
+  # Cancel teleport if the player takes damage?
+  cancel-on-damage: true
+  
+  # Global cooldown BETWEEN two successful uses (in seconds). 0 to disable.
+  delay-between-tp: 30
+  
+  # Temporary invulnerability duration upon arrival (in seconds). 0 to disable.
+  post-tp-protection: 5
+  
+  # Cancel teleport if the player is in PvP combat (Integrated tracking)
+  cancel-in-combat: true
+
+  # Teleport Hologram settings (Text Display above player during warmup)
+  hologram:
+    enabled: true
+    bar-length: 10
+    char-filled: "<green>█"
+    char-empty: "<gray>░"
+
+  # Teleport BossBar settings (BossBar at the top of the screen during warmup)
+  bossbar:
+    enabled: true
+    title: "&e&lTeleporting to &f{name}&e... &7({seconds}s)"
+    color: "YELLOW" # BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+    style: "PROGRESS" # PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+
+  # Spectator Preview Settings (allows players to preview public homes)
+  preview:
+    enabled: true
+    duration: 5 # in seconds
+
+# General Homes Settings
+homes:
+  # Allow players to set a home as their respawn point (overriding server spawn)?
+  allow-respawn-at-home: true
+  
+  # Priority when a player dies:
+  # - HOME_THEN_BED: Respawn at home first, fallback to bed.
+  # - BED_THEN_HOME: Respawn at bed first if valid, fallback to home.
+  respawn-priority: "BED_THEN_HOME"
+  
+  # Allow players to set their homes to PUBLIC to be visible in the catalog?
+  allow-public-homes: true
+  
+  # Maximum length for a home name
+  max-name-length: 24
+
+# Default Home Limits (permission-based)
+# The player receives the highest limit among their permission groups.
+# Corresponding permission node: sethomex.limit.<group_name>
+limits:
+  default: 3
+  vip: 5
+  vip-plus: 10
+  admin: 100
+
+# World-specific home limits. Bypassed by sethomex.bypass.world-limit or operators.
+# Format: world_name: max_limits
+world-limits:
+  world_nether: 1
+  world_the_end: 0
+
+# Teleport Aesthetic Settings (Effects and Particles)
+effects:
+  # Effects during the countdown
+  countdown:
+    # Supported particles: FLAME, ENCHANT, HAPPY_VILLAGER, WITCH, END_ROD, PORTAL, CHERRY_LEAVES, DRIP_WATER, CLOUD, SOUL_FIRE_FLAME
+    particle: "PORTAL"
+    # Particle style: SPIRAL (rising spiral), RING (double rotating ring), SHIELD (protective bubble), TORNADO (dynamic tornado), PROGRESSIVE_RING (ring rising with warmup), BEACON (temporary beam)
+    style: "SPIRAL"
+    # Sound played on each second of the countdown (Spigot Sound Enum)
+    sound: "BLOCK_NOTE_BLOCK_PLING"
+    volume: 0.8
+    pitch: 1.0
+    
+  # Effects triggered upon successful teleportation
+  success:
+    particle: "EXPLOSION"
+    sound: "ENTITY_ENDERMAN_TELEPORT"
+    volume: 1.0
+    pitch: 1.2
+
+# Graphical User Interface (GUI) Customization
+gui:
+  title: "&e&lSethomeX &8» &fMy Homes"
+  # Default material representing a newly created home
+  default-home-item: "RED_BED"
+  # Fill empty GUI slots with colored glass panes?
+  fill-empty-slots: true
+  fill-item: "GRAY_STAINED_GLASS_PANE"
+
+# Integration & Safety Options
+safety:
+  # Verify destination integrity (prevents lava, void, or suffocation deaths)?
+  check-safe-destination: true
+  # Prevent using /sethome in mid-air?
+  prevent-unsafe-sethome: true
+  
+  # Worlds where players cannot set homes
+  blacklisted-worlds:
+    - "world_the_end"
+    - "hub_world"
+    - "dungeon_realm"
+
+# Claim & Protection Plugins Integration
+protections:
+  # Prevent setting a home (sethome) inside another player's claim/territory?
+  prevent-sethome-in-claims: true
+  # Automatically supported: WorldGuard, Lands, MyLands, ProtectionStones
+
+# Cross-Server Network Synchronization (BungeeCord / Velocity)
+network:
+  bungee-sync:
+    # Enable instant synchronization between multiple servers?
+    enabled: false
+
+# Memory & Performance Tuning
+performance:
+  # How long (in minutes) player data remains in RAM after logout?
+  # High values reduce MySQL load but consume more RAM.
+  cache-retention-minutes: 30
+
+# Web Maps Integration (Dynmap, BlueMap, Squaremap)
+integrations:
+  maps:
+    # Show public player homes automatically on interactive web maps?
+    enabled: true
+
+# Economy System (Requires Vault dependency plugin)
+economy:
+  enabled: false
+  # Cost to create a new home via /sethome
+  create-cost: 500.0
+  # Cost charged per teleport via /home (only deducted upon final success)
+  teleport-cost: 0.0
+  # Server tax percentage for public home teleport fees
+  visit-fee-tax-percent: 10
+  # Maximum fee a player can set for their public home teleport
+  max-visit-fee: 5000
+  # Price to sponsor a public home (per day)
+  sponsor-price-per-day: 1000.0
+  # Price to rent a temporary home slot (per day)
+  rent-slot-price-per-day: 100.0
+
+# Automatic Update Framework
+updates:
+  # Automatically check for new plugin builds on SpigotMC?
+  check-updates: true
+
+# Chat Invitation & Social Settings
+social:
+  # Duration (in seconds) during which a teleport invitation (/home invite) remains active
+  invite-duration: 60
+  # Welcome message title durations (in milliseconds)
+  welcome-message:
+    fade-in-ms: 500
+    stay-ms: 3000
+    fade-out-ms: 500
+
+# Favorites System
+favorites:
+  # Maximum number of favorites a player can have (max: 7 due to GUI layout constraints on Row 1)
+  max-favorites: 7
+
+
+# Physical Portal Settings
+portals:
+  # Allowed materials for frames and their respective properties
+  allowed-frames:
+    QUARTZ_BLOCK:
+      cooldown-multiplier: 1.0
+      particle: "PORTAL"
+    OBSIDIAN:
+      cooldown-multiplier: 0.5
+      particle: "WITCH"
+    GOLD_BLOCK:
+      cooldown-multiplier: 0.75
+      particle: "HAPPY_VILLAGER"
+    DIAMOND_BLOCK:
+      cooldown-multiplier: 0.0 # Instant TP
+      particle: "FLAME"
+    NETHERITE_BLOCK:
+      cooldown-multiplier: 0.0 # Instant TP
+      particle: "SOUL_FIRE_FLAME"
+
+# Death settings
+death:
+  # Proposer au joueur à sa mort de retourner à son home le plus proche ?
+  enable-auto-home-prompt: true
+  # Message envoyé dans le chat lors de la mort (supporte les couleurs héritées)
+  death-re-tp: "&6[SethomeX] &eVous êtes mort ! Cliquez &a&l[ICI] &epour retourner à votre home &f{home} &ele plus proche."
