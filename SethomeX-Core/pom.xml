@@ -126,16 +126,6 @@
                 <version>3.5.3</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <artifactSet>
-                        <includes>
-                            <include>fr.skynex:SethomeX-API</include>
-                            <include>org.bstats:bstats-bukkit</include>
-                            <include>org.bstats:bstats-base</include>
-                            <include>com.zaxxer:HikariCP</include>
-                            <include>org.mariadb.jdbc:mariadb-java-client</include>
-                            <include>com.github.ben-manes.caffeine:caffeine</include>
-                        </includes>
-                    </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -150,6 +140,9 @@
                             <shadedPattern>fr.skynex.sethomex.libs.caffeine</shadedPattern>
                         </relocation>
                     </relocations>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
