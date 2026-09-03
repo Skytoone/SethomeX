@@ -7,7 +7,7 @@
     <parent>
         <groupId>fr.skynex</groupId>
         <artifactId>SethomeX-Parent</artifactId>
-        <version>v1.0.7</version>
+        <version>v1.0.8</version>
     </parent>
 
     <artifactId>SethomeX-Core</artifactId>

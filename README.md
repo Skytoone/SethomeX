@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Plugin Version](https://img.shields.io/badge/Version-v1.0.7-FFD700?style=for-the-badge&logo=minecraft)](https://github.com/Skytoone/SethomeX)
+[![Plugin Version](https://img.shields.io/badge/Version-v1.0.8-FFD700?style=for-the-badge&logo=minecraft)](https://github.com/Skytoone/SethomeX)
 [![Java Version](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk)](https://www.oracle.com/java/)
 [![Platform](https://img.shields.io/badge/Platform-Paper%20%7C%20Spigot%20%7C%20Folia-005B9A?style=for-the-badge)](https://papermc.io/)
 [![License](https://img.shields.io/badge/License-GPLv3-4CAF50?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -148,7 +148,7 @@ SethomeX exposes a clean developer API through the `SethomeX-API` module, publis
     <dependency>
         <groupId>com.github.Skytoone</groupId>
         <artifactId>SethomeX-API</artifactId>
-        <version>v1.0.7</version>
+        <version>v1.0.8</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -161,7 +161,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.Skytoone:SethomeX-API:v1.0.7'
+    compileOnly 'com.github.Skytoone:SethomeX-API:v1.0.8'
 }
 ```
 
@@ -271,7 +271,7 @@ cd SethomeX
 mvn clean package
 ```
 
-The compiled plugin JAR will be available at `target/SethomeX-v1.0.7.jar`.
+The compiled plugin JAR will be available at `target/SethomeX-v1.0.8.jar`.
 
 ### Project Structure
 ```
