@@ -108,14 +108,7 @@ public class TeleportListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        if (plugin.getTeleportManager().isTeleporting(player)) {
-            plugin.getTeleportManager().cancelTeleport(player, false);
-        }
-        if (plugin.getTeleportManager().isPreviewing(player)) {
-            plugin.getTeleportManager().endPreview(player, true, null);
-        }
-        plugin.getTeleportManager().removeOverrideOnQuit(player);
+        plugin.getTeleportManager().cleanupPlayerOnQuit(event.getPlayer());
     }
 
     @EventHandler

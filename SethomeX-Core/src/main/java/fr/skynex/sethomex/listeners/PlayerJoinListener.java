@@ -28,7 +28,7 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        // Nettoyer les favoris résolus pour éviter les fuites mémoire
-        plugin.getHomeManager().removePlayerFavorites(event.getPlayer().getUniqueId());
+        plugin.getHomeManager().cleanupPlayer(event.getPlayer().getUniqueId());
+        fr.skynex.sethomex.gui.HomeGUI.cleanPlayerSession(event.getPlayer().getUniqueId());
     }
 }

@@ -85,6 +85,41 @@ public class TeleportManager {
         this.previewAllowFlyKey = new NamespacedKey(plugin, "preview_allow_fly");
     }
 
+    public void cleanupPlayerOnQuit(Player player) {
+        if (player == null) return;
+        UUID uuid = player.getUniqueId();
+        if (isTeleporting(player)) {
+            cancelTeleport(player, false);
+        }
+        if (isPreviewing(player)) {
+            endPreview(player, true, null);
+        }
+        removeOverrideOnQuit(player);
+
+        combatTags.remove(uuid);
+        globalCooldowns.remove(uuid);
+        protectionTags.remove(uuid);
+        selectedParticles.remove(uuid);
+        selectedStyles.remove(uuid);
+        selectedSounds.remove(uuid);
+        selectedSuccessSounds.remove(uuid);
+
+        org.bukkit.entity.TextDisplay holo = activeHolograms.remove(uuid);
+        if (holo != null && holo.isValid()) {
+            holo.remove();
+        }
+
+        org.bukkit.boss.BossBar bossBar = activeBossBars.remove(uuid);
+        if (bossBar != null) {
+            bossBar.removeAll();
+        }
+
+        ScheduledTask previewTask = activeCosmeticPreviews.remove(uuid);
+        if (previewTask != null) {
+            previewTask.cancel();
+        }
+    }
+
     public void setPlayerCosmetics(UUID uuid, String particle, String style, String sound, String successSound) {
         if (particle != null) selectedParticles.put(uuid, particle);
         if (style != null) selectedStyles.put(uuid, style);

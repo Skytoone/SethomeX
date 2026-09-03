@@ -13,9 +13,17 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import java.util.concurrent.TimeUnit;
+
 public class HeadUtil {
 
     private static final Pattern TEXTURE_URL_PATTERN = Pattern.compile("http://textures\\.minecraft\\.net/texture/[a-zA-Z0-9]+");
+    private static final Cache<String, ItemStack> HEAD_CACHE = Caffeine.newBuilder()
+            .maximumSize(1000)
+            .expireAfterAccess(1, TimeUnit.HOURS)
+            .build();
 
     /**
      * Construit un ItemStack de PLAYER_HEAD portant la texture fournie.
@@ -28,9 +36,23 @@ public class HeadUtil {
      * @return Un ItemStack configuré
      */
     public static ItemStack getCustomHead(String texture) {
+        if (texture == null || texture.isEmpty()) {
+            return new ItemStack(Material.PLAYER_HEAD);
+        }
+        ItemStack cached = HEAD_CACHE.getIfPresent(texture);
+        if (cached != null) {
+            return cached.clone();
+        }
+
+        ItemStack head = createCustomHead(texture);
+        HEAD_CACHE.put(texture, head.clone());
+        return head;
+    }
+
+    private static ItemStack createCustomHead(String texture) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
-        if (meta == null || texture == null || texture.isEmpty()) {
+        if (meta == null) {
             return head;
         }
 

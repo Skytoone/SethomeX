@@ -2580,4 +2580,19 @@ public class HomeGUI implements Listener {
             openHomeSettingsGUI(player, home);
         }
     }
+
+    public static void cleanPlayerSession(UUID uuid) {
+        if (uuid == null) return;
+        openInventories.remove(uuid);
+        selectedHomeForIcon.remove(uuid);
+        currentGUIPage.remove(uuid);
+        currentSortModes.remove(uuid);
+        pendingDeleteHome.remove(uuid);
+        selectedHomeForTrust.remove(uuid);
+        currentGUICategory.remove(uuid);
+        selectedGuestForTrust.remove(uuid);
+        activeChatInputs.remove(uuid);
+        currentSearchQueries.remove(uuid);
+        selectedAdminTarget.remove(uuid);
+    }
 }

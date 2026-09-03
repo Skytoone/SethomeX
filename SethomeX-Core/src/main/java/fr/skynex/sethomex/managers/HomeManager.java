@@ -49,6 +49,14 @@ public class HomeManager {
         return cache;
     }
 
+    public void cleanupPlayer(UUID uuid) {
+        if (uuid == null) return;
+        cache.invalidate(uuid);
+        resolvedFavorites.remove(uuid);
+        rentedSlotsCache.remove(uuid);
+        nameCache.remove(uuid);
+    }
+
     /**
      * Charge les homes et trusts d'un joueur en cache (Appelé à la connexion)
      */
